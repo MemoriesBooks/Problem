@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oracle.curd.dao.RootDao">
+	<!-- 查询登录管理员 -->
+	<select id="findRoot" parameterType="String" resultType="Root">
+		select *
+		from sys_root
+		where root_code =#{rootcode}
+		and root_password=#{password}
+	</select>
+</mapper>

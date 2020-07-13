@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+		http://www.springframework.org/schema/mvc
+  http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
+	<!-- 配置SpringIOC容器自动扫描的包 -->
+	<context:component-scan base-package="com.oracle">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+	<!-- 配置数据源的属性文件 -->
+	<context:property-placeholder location="classpath:db.properties" />
+	<!-- 配置数据源，事务控制等 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="user" value="${jdbc.user}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="driverClass" value="${jdbc.driverclass}"></property>
+		<property name="jdbcUrl" value="${jdbc.jdbcurl}"></property>
+	</bean>
+	<!-- 配置Mybatis的整合 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 指定MyBatis全局配置文件的位置 -->
+		<property name="configLocation" value="classpath:mybaties.xml"></property>
+		<!-- 配置数据源 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 指定MyBatis映射文件的位置 -->
+		<property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+	</bean>
+	<!-- 配置一个可以执行批量操作的Session -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+		<constructor-arg name="executorType" value="BATCH"></constructor-arg>
+	</bean>
+	<!-- 配置扫描器，将MyBatis接口的实现加入到IOC容器中 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 扫描所有的DAO接口 -->
+		<property name="basePackage" value="com.oracle.curd.dao"></property>
+	</bean>
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!-- 配置管理的数据源 -->
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- 开启基于XML配置的事务 -->
+	<aop:config>
+		<!-- 配置事务的切入点表达式 -->
+		<aop:pointcut expression="execution(* com.oracle.curd.service..*(..))" id="txPoint" />
+		<!-- 配置事务增强 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPoint" />
+	</aop:config>
+	<!-- 配置事务增强，事务如何切入 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 配置切入点的所有的方法都是事务方法 -->
+			<tx:method name="*" />
+			<!-- 配置所有get开头的方法都是只读的方法 -->
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="root" />
+			<bean class="com.oracle.curd.intercector.RecordInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="customer" />
+			<bean class="com.oracle.curd.intercector.RecordInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+</beans>

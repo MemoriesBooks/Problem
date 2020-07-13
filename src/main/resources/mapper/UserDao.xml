@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oracle.curd.dao.UserDao">
+	<!-- 查询登录用户 -->
+	<select id="findUser" parameterType="User" resultType="User">
+	    select * from sys_user where user_code = #{usercode} and user_password = #{password} and user_state = '1'
+    </select>
+	<!-- 注册新用户 -->
+	<insert id="addUser" parameterType="String">
+    insert into sys_user(
+	                     user_code,
+	                     user_name,
+	                     user_password,
+	                     user_state,
+	                     user_age,
+	                     user_sex
+	             )
+	             values(
+	                    #{usercode},
+	                    #{username},
+	                    #{userpassword},
+	                    "1",
+	                    #{userage},
+	                    #{usersex}
+	            )
+    </insert>
+	<!-- 登录日志 -->
+	<select id="addRecord" parameterType="record">
+	    insert into record(event,event_time,event_ip)
+	    value(#{event},#{event_time},#{event_ip})
+	</select>
+</mapper>
