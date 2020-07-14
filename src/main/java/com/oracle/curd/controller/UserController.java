@@ -77,5 +77,10 @@ public class UserController {
 		userService.addUser(usercode, username, userpassword, userage, usersex);
 		return "login";
 	}
+	
+	@RequestMapping(value = "customer", method = RequestMethod.GET)
+	public String customer() {
+		return "customer";
+	}
 
 }

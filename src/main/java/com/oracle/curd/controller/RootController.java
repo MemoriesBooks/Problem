@@ -144,4 +144,8 @@ public class RootController {
 		return "user_zhuce";
 	}
 
+	@RequestMapping(value = "customer_update", method = RequestMethod.GET)
+	public String customer_update() {
+		return "customer_update";
+	}
 }
