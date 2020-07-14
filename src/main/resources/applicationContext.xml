@@ -60,14 +60,4 @@
 		</tx:attributes>
 	</tx:advice>
 
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="root" />
-			<bean class="com.oracle.curd.intercector.RecordInterceptor" />
-		</mvc:interceptor>
-		<mvc:interceptor>
-			<mvc:mapping path="customer" />
-			<bean class="com.oracle.curd.intercector.RecordInterceptor" />
-		</mvc:interceptor>
-	</mvc:interceptors>
 </beans>

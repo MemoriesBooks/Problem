@@ -42,7 +42,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<fieldset style="width: auto; margin: 0px auto;">
 						<font color="red"> <%-- 提示信息--%> <span id="message">${msg}</span>
 						</font>
-						<%-- 提交后的位置：/WEB-INF/views/customer.jsp--%>
+						<%-- 提交后的位置：views/customer.jsp--%>
 						<form action="login" method="post" onsubmit="return check()">
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br /> <br /> 账&nbsp;号：<input
 								id="usercode" type="text" name="usercode" /> <br /> <br />
