@@ -4,7 +4,7 @@
  "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
  <settings>
- 	<setting name="mapUnderscoreToCamelCase" value="true"/>
+ 	<setting name="mapUnderscoreToCamelCase" value="false"/><!--驼峰式命名导致属性下划线去除，与bean对应不上了 -->
  </settings>
  <typeAliases>
  	<package name="com.oracle.curd.bean"/>

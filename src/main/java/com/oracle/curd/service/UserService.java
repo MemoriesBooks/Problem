@@ -16,10 +16,15 @@ public class UserService {
 	// 注入UserDao
 	@Autowired
 	private UserDao userDao;
-
+	
 	// 登录查找用户
 	public User findUser(String usercode, String password) {
-		User user = this.userDao.findUser(usercode, password);
+		User user1=new User();
+		user1.setUser_code(usercode);
+		user1.setUser_password(password);
+		System.out.println(user1);
+		User user = this.userDao.findUser(user1);
+		System.out.println("user:"+user);
 		return user;
 	}
 

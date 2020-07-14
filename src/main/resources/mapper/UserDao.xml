@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oracle.curd.dao.UserDao">
 	<!-- 查询登录用户 -->
-	<select id="findUser" parameterType="User" resultType="User">
-	    select * from sys_user where user_code = #{usercode} and user_password = #{password} and user_state = '1'
+	<select id="findUser" parameterType="com.oracle.curd.bean.User" resultType="com.oracle.curd.bean.User">
+	    select * from sys_user where user_code = #{user_code} and user_password = #{user_password} and user_state = '1'
     </select>
 	<!-- 注册新用户 -->
 	<insert id="addUser" parameterType="String">

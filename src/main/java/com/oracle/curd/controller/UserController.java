@@ -37,9 +37,11 @@ public class UserController {
 			model.addAttribute("msg", "验证码输入错误");
 			return "login";
 		}
-		System.out.println(usercode + password);
+		
 		// 调用Dao层方法
 		User user = userService.findUser(usercode, password);
+		System.out.println(user);
+		System.out.println(usercode + password);
 		if (user != null) {
 			// 从dao层那边查询的数据加入Session
 			session.setAttribute("USER_SESSION", user);

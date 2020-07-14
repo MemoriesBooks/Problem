@@ -3,6 +3,12 @@ package com.oracle.curd.bean;
 import java.io.Serializable;
 
 public class User implements Serializable {
+	@Override
+	public String toString() {
+		return "User [user_id=" + user_id + ", user_code=" + user_code + ", user_name=" + user_name + ", user_password="
+				+ user_password + ", user_state=" + user_state + ", user_age=" + user_age + ", user_sex=" + user_sex
+				+ "]";
+	}
 	private static final long serialVersionUID = 1L;
 	private Integer user_id;      //用户Id
 	private String user_code;     //用户账号
